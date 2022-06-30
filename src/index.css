@@ -3,6 +3,7 @@
 @import url(../src/blocks/page/page.css);
 @import url(../src/blocks/header/header.css);
 @import url(../src/blocks/header/__logo/header__logo.css);
+@import url(../src/blocks/header/__button/header__button.css);
 @import url(../src/blocks/profile/profile.css);
 @import url(../src/blocks/profile/__avatar-conteiner/profile__avatar-conteiner.css);
 @import url(../src/blocks/profile/__avatar/profile__avatar.css);
@@ -41,3 +42,9 @@
 @import url(../src/blocks/popup/__card-img/popup__card-img.css);
 @import url(../src/blocks/popup/__card-name/popup__card-name.css);
 @import url(../src/blocks/popup/_view_image/popup_view_image.css);
+@import url(../src/blocks/sign/sign.css);
+@import url(../src/blocks/sign/__form/sign__form.css);
+@import url(../src/blocks/sign/__form-title/sign__form-title.css);
+@import url(../src/blocks/sign/__form-input/sign__form-input.css);
+@import url(../src/blocks/sign/__form-button/sign__form-button.css);
+@import url(../src/blocks/sign/__form-link/sign__form-link.css);
