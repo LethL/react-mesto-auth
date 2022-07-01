@@ -9,19 +9,27 @@ import AddPlacePopup from "./AddPlacePopup";
 import Loader from "./Loader/Loader";
 import api from "../utils/api";
 import React, { useEffect } from "react";
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import Register from "./Register";
 import Login from "./Login";
+import InfoTooltip from "./InfoTooltip";
 import { Switch } from "react-router-dom/cjs/react-router-dom.min";
+import ProtectedRoute from "./ProtectedRoute";
+import * as auth from '../utils/auth.js';
+import successLogo from "../images/success-logo.svg";
+import errorLogo from "../images/error-logo.svg";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+  const [isInfoTooltipOpen, setInfoTooltipOpen] = React.useState(false);
   const [selectedCard, setselectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [status, setStatus] = React.useState({image: null, message: ''});
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
@@ -44,6 +52,7 @@ function App() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setselectedCard(null);
+    setInfoTooltipOpen(false)
   }
 
   function handleUpdateUser(user) {
@@ -123,21 +132,52 @@ function App() {
     .catch((err) => console.log(err));
   }
 
+  function handleRegister(password, email) {
+    auth.register(password, email)
+    .then((data) => {
+      console.log(data);
+      setStatus({image: successLogo, message: 'Вы успешно зарегистрировались!'})
+    })
+    .catch(() =>
+      setStatus({image: errorLogo, message: 'Что-то пошло не так! Попробуйте ещё раз.'}))
+    .finally(() => setInfoTooltipOpen(true))
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
 
           <Switch>
-            <Route path="/sign-up">
-              <Register />
+            <Route path="/signup">
+              <Register 
+              onRegister={handleRegister}/>
             </Route>
 
-            <Route path="/sign-in">
+            <Route path="/signin">
               <Login />
             </Route>
 
-            <Route path="/">
+            
+            <ProtectedRoute
+            path="/main"
+            loggedIn={loggedIn}
+            component={Main}
+            onEditAvatar={handleEditAvatarClick}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            handleCardLike={handleCardLike}
+            handleCardDelete={handleCardDelete}> 
+            </ProtectedRoute>
+
+            <Route exact path="/">
+              {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signup" />}
+            </Route> 
+          </Switch>
+
+            {/* <Route path="/main"> */}
               <EditAvatarPopup
               isOpen={isEditAvatarPopupOpen}
               onClose={handlecloseAllPopups}
@@ -158,7 +198,13 @@ function App() {
 
               <ImagePopup card={selectedCard} onClose={handlecloseAllPopups} />
 
-              <Main
+              <InfoTooltip
+              onClose={handlecloseAllPopups}
+              isOpen={isInfoTooltipOpen}
+              image={status.image}
+              message={status.message}/>
+
+              {/* <Main
                 onEditAvatar={handleEditAvatarClick}
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
@@ -166,11 +212,12 @@ function App() {
                 cards={cards}
                 handleCardLike={handleCardLike}
                 handleCardDelete={handleCardDelete}
-              />
+              /> */}
 
               <Footer />
-            </Route>
-          </Switch>
+            {/* </Route> */}
+
+          
       </div>
     </CurrentUserContext.Provider>
   );

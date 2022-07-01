@@ -42,6 +42,9 @@
 @import url(../src/blocks/popup/__card-img/popup__card-img.css);
 @import url(../src/blocks/popup/__card-name/popup__card-name.css);
 @import url(../src/blocks/popup/_view_image/popup_view_image.css);
+@import url(../src/blocks/popup/__tulpip/popup__tulpip.css);
+@import url(../src/blocks/popup/__tultip-image/popup__tultip-image.css);
+@import url(../src/blocks/popup/__tultip-title/popup__tultip-title.css);
 @import url(../src/blocks/sign/sign.css);
 @import url(../src/blocks/sign/__form/sign__form.css);
 @import url(../src/blocks/sign/__form-title/sign__form-title.css);
