@@ -17,7 +17,6 @@ function PopupWithForm(props) {
           <img className="popup__close-image" src={closeBtn} alt="закрыть" />
         </button>
         <form
-          id="edit-profile-form"
           name={props.name}
           className="popup__form"
           action="send"

@@ -15,7 +15,6 @@ function Register({onRegister}) {
 
     function handleRegisterSubmit(e) {
         e.preventDefault();
-        
         onRegister(password, email)
     }
 
@@ -42,6 +41,7 @@ function Register({onRegister}) {
                 id="password-input"
                 type="password"
                 value={password || ""}
+                autoComplete="off"
                 onChange={handleChangePassword}>
                 </input>
                 <button className="sign__form-button">Зарегистрироваться</button>

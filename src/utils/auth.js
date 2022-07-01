@@ -17,4 +17,16 @@ export const register = (password, email) => {
     }).then((res) => {
         return handleResponse(res)
     })
-}; 
+};
+
+export const authorize = (password, email) => {
+    return fetch(`${BASE_URL}/signin`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json" 
+      },
+      body: JSON.stringify({password, email})
+    }).then((res) => {
+        return handleResponse(res)
+    })
+};
