@@ -30,6 +30,7 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [status, setStatus] = React.useState({ image: null, message: "" });
   const history = useHistory();
+  const [userEmail, setUserEmail] = React.useState('');
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
@@ -107,6 +108,10 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    tokenCheck()
+  }, [])
+
   if (loading) {
     return <Loader />;
   }
@@ -136,8 +141,7 @@ function App() {
   function handleRegister(password, email) {
     auth
       .register(password, email)
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         setStatus({
           image: successLogo,
           message: "Вы успешно зарегистрировались!",
@@ -153,13 +157,28 @@ function App() {
       .finally(() => setInfoTooltipOpen(true));
   }
 
+  function tokenCheck() {
+    if (localStorage.getItem('jwt')){
+      const jwt = localStorage.getItem('jwt');
+      if (jwt) {
+        auth.getContent(jwt)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            history.push("/");
+            setUserEmail(res.data.email)
+          }
+        })
+        .catch((err) => console.log(err))
+      }
+    }
+  }
+
   function handleLogin(password, email) {
     auth
       .authorize(password, email)
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         setLoggedIn(true);
-        console.log(loggedIn);
         history.push("/");
       })
       .catch((err) => console.log(err));
@@ -168,7 +187,9 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header
+        mail={userEmail}
+        loggedIn={loggedIn}/>
 
         <Switch>
           <ProtectedRoute
