@@ -8,7 +8,7 @@ function Header({mail, loggedIn, logOut}) {
       <img className="header__logo" src={logo} alt="лого" />
       <div className="header__info">
         <p className="header__email">{`${loggedIn ? `${mail}` : '' }`}</p>
-        {loggedIn ? <Link to="/signin" className="header__button" onClick={logOut}>Выйти</Link> :
+        {loggedIn ? <Link to="/signin" className="header__button header__button_gray" onClick={logOut}>Выйти</Link> :
         <>
           <Route path="/signin">
             <Link to='signup' className='header__button'>Регистрация</Link>
