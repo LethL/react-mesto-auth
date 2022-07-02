@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 import { Route} from "react-router-dom";
 
-function Header({mail, loggedIn}) {
+function Header({mail, loggedIn, logOut}) {
   return (
     <header className="header">
       <img className="header__logo" src={logo} alt="лого" />
       <div className="header__info">
         <p className="header__email">{`${loggedIn ? `${mail}` : '' }`}</p>
-        {loggedIn ? <Link to="/signin" className="header__button">Выйти</Link> :
+        {loggedIn ? <Link to="/signin" className="header__button" onClick={logOut}>Выйти</Link> :
         <>
           <Route path="/signin">
             <Link to='signup' className='header__button'>Регистрация</Link>

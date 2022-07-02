@@ -184,12 +184,19 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  function logOut() {
+    localStorage.removeItem('jwt');
+    history.push('/signup');
+    setLoggedIn(false);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header
         mail={userEmail}
-        loggedIn={loggedIn}/>
+        loggedIn={loggedIn}
+        logOut={logOut}/>
 
         <Switch>
           <ProtectedRoute
