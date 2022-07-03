@@ -112,6 +112,18 @@ function App() {
     tokenCheck()
   }, [])
 
+  useEffect(() => {
+    const closeByEscape = (e) => {
+      if (e.key === 'Escape') {
+        handlecloseAllPopups();
+      }
+    }
+
+    document.addEventListener('keydown', closeByEscape)
+    
+    return () => document.removeEventListener('keydown', closeByEscape)
+  }, [])
+
   if (loading) {
     return <Loader />;
   }
